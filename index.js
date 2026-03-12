@@ -28,9 +28,8 @@ client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
 
-  if (msg.includes("gm")) {
-    message.reply("Gm 😊");
-    return;
+  if (msg.startsWith("gm")) {
+  message.reply("GM 😊");
   }
 
   const msg = message.content.toLowerCase();
@@ -154,3 +153,4 @@ client.login(TOKEN);
 process.on("unhandledRejection", console.error);
 
 process.on("uncaughtException", console.error);
+
