@@ -27,6 +27,12 @@ client.on("messageCreate", async (message) => {
 
   if (message.author.bot) return;
 
+
+  if (msg.includes("gm")) {
+    message.reply("Gm 😊");
+    return;
+  }
+
   const msg = message.content.toLowerCase();
 
   if (message.channel.id === AIRDROP_CHANNEL) {
@@ -146,4 +152,5 @@ process.on("uncaughtException", console.error);
 client.login(TOKEN);
 
 process.on("unhandledRejection", console.error);
+
 process.on("uncaughtException", console.error);
