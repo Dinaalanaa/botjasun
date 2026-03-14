@@ -33,6 +33,10 @@ const msg = message.content.toLowerCase();
   message.reply("GM 😊");
   }
 
+  if (msg.startsWith("when")) {
+  message.reply("Sabar yaa, Semua ada masanya manusia berputar pada porosnya masing" 🥰");
+  }
+  
   if (message.channel.id === AIRDROP_CHANNEL) {
 
     if (msg.startsWith("#airdrop")) {
