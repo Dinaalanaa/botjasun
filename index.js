@@ -16,20 +16,20 @@ const client = new Client({
 // ============================================================
 const PRICE_CHANNEL = "1481283924909887579";
 const AIRDROP_CHANNEL = "1462344839742881926";
-const BSB_MONITOR_CHANNEL = "1462330467083878430"; // ganti dengan channel ID untuk notif BSB
+const BSB_MONITOR_CHANNEL = "1462330467083878430"; 
 
 // ============================================================
 // ENV
 // ============================================================
 const WEATHER_API = process.env.OPENWEATHER_API_KEY;
 const TOKEN = process.env.DISCORD_TOKEN;
-const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY; // tambah di .env
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY; 
 
 // ============================================================
 // BSB MONITOR CONFIG
 // ============================================================
 const BSB_TOKEN = "0xdb6ba5d510f114f9b2ea08bea7d30e32eee33411";
-const POLL_INTERVAL = 60_000; // cek tiap 60 detik
+const POLL_INTERVAL = 60_000;
 
 const WATCH_ADDRESSES = [
   {
@@ -54,9 +54,7 @@ WATCH_ADDRESSES.forEach((a) => {
   lastSeenTokenTx[a.address] = null;
 });
 
-// ============================================================
-// HELPER BSB MONITOR
-// ============================================================
+
 function shortAddr(addr) {
   return addr.slice(0, 6) + "..." + addr.slice(-4);
 }
@@ -80,9 +78,6 @@ async function sendBSBEmbed(embed) {
   }
 }
 
-// ============================================================
-// CEK TX BIASA
-// ============================================================
 async function checkNormalTx(entry) {
   const addr = entry.address.toLowerCase();
   try {
@@ -105,14 +100,13 @@ async function checkNormalTx(entry) {
     const txs = data.result;
     const latest = txs[0].hash;
 
-    // Init state pertama kali
+
     if (lastSeenTx[addr] === null) {
       lastSeenTx[addr] = latest;
       console.log(`[INIT] ${entry.label}`);
       return;
     }
 
-    // Cari tx baru
     const newTxs = [];
     for (const tx of txs) {
       if (tx.hash === lastSeenTx[addr]) break;
@@ -173,9 +167,6 @@ async function checkNormalTx(entry) {
   }
 }
 
-// ============================================================
-// CEK TOKEN TRANSFER BSB
-// ============================================================
 async function checkTokenTx(entry) {
   const addr = entry.address.toLowerCase();
   try {
@@ -259,9 +250,6 @@ async function checkTokenTx(entry) {
   }
 }
 
-// ============================================================
-// MAIN MONITOR LOOP
-// ============================================================
 async function startBSBMonitor() {
   console.log("📡 BSB Monitor dimulai...");
 
@@ -276,10 +264,6 @@ async function startBSBMonitor() {
   await tick(); // run pertama kali
   setInterval(tick, POLL_INTERVAL);
 }
-
-// ============================================================
-// BOT EVENTS
-// ============================================================
 client.once("ready", async () => {
   console.log(`✅ Bot online sebagai ${client.user.tag}`);
   await startBSBMonitor(); // mulai monitor setelah bot ready
@@ -306,7 +290,6 @@ client.on("messageCreate", async (message) => {
     }
   }
 
-  // Cek status BSB Monitor
   if (msg.startsWith("!cekvest")) {
     const now = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
 
@@ -372,7 +355,6 @@ client.on("messageCreate", async (message) => {
     }
   }
 
-  // Harga crypto — hanya di PRICE_CHANNEL
   if (message.channel.id !== PRICE_CHANNEL) return;
 
   const match = msg.match(/(\d+(\.\d+)?)\s*([a-z]+)/);
