@@ -275,8 +275,12 @@ client.on("messageCreate", async (message) => {
   const msg = message.content.toLowerCase();
 
   // GM
-  if (msg.startsWith("gm")) {
-    message.reply("GM 😊");
+  if (msg.startsWith("gm"){
+    message.reply("GM, time to work 😊");
+  }
+
+    if (msg.startsWith("gn"){
+    message.reply("GN , Jan lupa turu !!! ☠️");
   }
 
   // Airdrop alert
