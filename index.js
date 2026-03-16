@@ -11,23 +11,14 @@ const client = new Client({
   ],
 });
 
-// ============================================================
-// CONFIG CHANNEL
-// ============================================================
 const PRICE_CHANNEL = "1481283924909887579";
 const AIRDROP_CHANNEL = "1462344839742881926";
 const BSB_MONITOR_CHANNEL = "1462330467083878430"; 
 
-// ============================================================
-// ENV
-// ============================================================
 const WEATHER_API = process.env.OPENWEATHER_API_KEY;
 const TOKEN = process.env.DISCORD_TOKEN;
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY; 
 
-// ============================================================
-// BSB MONITOR CONFIG
-// ============================================================
 const BSB_TOKEN = "0xdb6ba5d510f114f9b2ea08bea7d30e32eee33411";
 const POLL_INTERVAL = 60_000;
 
@@ -257,16 +248,16 @@ async function startBSBMonitor() {
     for (const entry of WATCH_ADDRESSES) {
       await checkNormalTx(entry);
       await checkTokenTx(entry);
-      await new Promise((r) => setTimeout(r, 300)); // delay antar request
+      await new Promise((r) => setTimeout(r, 300));
     }
   }
 
-  await tick(); // run pertama kali
+  await tick();
   setInterval(tick, POLL_INTERVAL);
 }
 client.once("ready", async () => {
   console.log(`✅ Bot online sebagai ${client.user.tag}`);
-  await startBSBMonitor(); // mulai monitor setelah bot ready
+  await startBSBMonitor();
 });
 
 client.on("messageCreate", async (message) => {
@@ -274,7 +265,7 @@ client.on("messageCreate", async (message) => {
 
   const msg = message.content.toLowerCase();
 
-  // GM
+
   if (msg.startsWith("gm")) {
   message.reply("GM, time to work 😊");
 }
@@ -283,7 +274,7 @@ if (msg.startsWith("gn")) {
   message.reply("GN, Jan lupa turu !!! ☠️");
 }
 
-  // Airdrop alert
+
   if (message.channel.id === AIRDROP_CHANNEL) {
     if (msg.startsWith("#airdrop")) {
       const text = message.content.replace("#airdrop", "").trim();
@@ -324,7 +315,7 @@ if (msg.startsWith("gn")) {
     return message.reply({ embeds: [embed] });
   }
 
-  // Cuaca
+  
   if (msg.startsWith("!suhu")) {
     const kota = message.content.split(" ").slice(1).join(" ");
     if (!kota) return message.reply("Contoh: !suhu jakarta");
@@ -394,7 +385,7 @@ if (msg.startsWith("gn")) {
       .setTitle(`💰 Konversi ${symbol.toUpperCase()}`)
       .setDescription(`Konversi **${amount} ${symbol.toUpperCase()} → IDR**`)
       .setThumbnail(
-        "https://play-lh.googleusercontent.com/2wCIQWu9gHP2vp2cvhJEcFw2ys7uuZV2wL0qZrENyE-iOEzYJHcdLHChr2lQ7R3YxYQ"
+        coin.large || coin.thumb
       )
       .addFields(
         { name: "USD", value: `$${totalUsd.toFixed(2)}`, inline: true },
